@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # Code for "TSM: Temporal Shift Module for Efficient Video Understanding"
 # arXiv:1811.08383
 # Ji Lin*, Chuang Gan, Song Han
@@ -11,7 +13,7 @@ import json
 
 if __name__ == '__main__':
     dataset_name = 'something-something-v2'  # 'jester-v1'
-    with open('%s-labels.json' % dataset_name) as f:
+    with open('%s-labels.json' % dataset_name, encoding='utf-8') as f:
         data = json.load(f)
     categories = []
     for i, (cat, idx) in enumerate(data.items()):
@@ -28,7 +30,7 @@ if __name__ == '__main__':
     files_input = ['%s-validation.json' % dataset_name, '%s-train.json' % dataset_name, '%s-test.json' % dataset_name]
     files_output = ['val_videofolder.txt', 'train_videofolder.txt', 'test_videofolder.txt']
     for (filename_input, filename_output) in zip(files_input, files_output):
-        with open(filename_input) as f:
+        with open(filename_input, encoding='utf-8') as f:
             data = json.load(f)
         folders = []
         idx_categories = []
@@ -43,7 +45,7 @@ if __name__ == '__main__':
             curFolder = folders[i]
             curIDX = idx_categories[i]
             # counting the number of frames in each video folders
-            dir_files = os.listdir(os.path.join('20bn-something-something-v2-frames', curFolder))
+            dir_files = os.listdir(os.path.join('E:\\ss2\\frame', curFolder))
             output.append('%s %d %d' % (curFolder, len(dir_files), curIDX))
             print('%d/%d' % (i, len(folders)))
         with open(filename_output, 'w') as f:

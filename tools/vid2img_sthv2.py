@@ -5,22 +5,26 @@
 
 import os
 import threading
+import sys
+import time
 
-NUM_THREADS = 100
-VIDEO_ROOT = '/ssd/video/something/v2/20bn-something-something-v2'         # Downloaded webm videos
-FRAME_ROOT = '/ssd/video/something/v2/20bn-something-something-v2-frames'  # Directory for extracted frames
+NUM_THREADS = 4
+VIDEO_ROOT = 'E:\\ss2\\video'         # Downloaded webm videos
+FRAME_ROOT = 'E:\\ss2\\frame'  # Directory for extracted frames
 
 
-def split(l, n):
+def split_l(l, n):
     """Yield successive n-sized chunks from l."""
+    temp_list = []
     for i in range(0, len(l), n):
-        yield l[i:i + n]
+        temp_list.append(l[i:i + n])
+    return temp_list
 
 
 def extract(video, tmpl='%06d.jpg'):
     # os.system(f'ffmpeg -i {VIDEO_ROOT}/{video} -vf -threads 1 -vf scale=-1:256 -q:v 0 '
     #           f'{FRAME_ROOT}/{video[:-5]}/{tmpl}')
-    cmd = 'ffmpeg -i \"{}/{}\" -threads 1 -vf scale=-1:256 -q:v 0 \"{}/{}/%06d.jpg\"'.format(VIDEO_ROOT, video,
+    cmd = 'D:\\ffmpeg\\bin\\ffmpeg.exe -i \"{}/{}\" -threads 1 -vf scale=-1:256 -q:v 0 \"{}/{}/%06d.jpg\"'.format(VIDEO_ROOT, video,
                                                                                              FRAME_ROOT, video[:-5])
     os.system(cmd)
 
@@ -37,14 +41,37 @@ if __name__ == '__main__':
     if not os.path.exists(FRAME_ROOT):
         os.makedirs(FRAME_ROOT)
 
-    video_list = os.listdir(VIDEO_ROOT)
-    splits = list(split(video_list, NUM_THREADS))
+    # n = int(sys.argv[1])
+    n = 10
+    for j in range(11042,11043):
+        t = 20 
+        n = j*t + 1
+        # del video_list
+        video_list = []
+        for i in range(n,n+t):
+            if i > 220847:
+                break
+            video_list.append(os.path.join(str(i)+'.webm'))
+        # video_list = os.listdir(VIDEO_ROOT)
+        print(video_list)
+        # print(split(video_list, NUM_THREADS))
+        splits = split_l(video_list, NUM_THREADS)
+        # print(splits)
+        old = time.time()
 
-    threads = []
-    for i, split in enumerate(splits):
-        thread = threading.Thread(target=target, args=(split,))
-        thread.start()
-        threads.append(thread)
+        # del threads
+        threads = []
+        for i, split_m in enumerate(splits):
+            # print(split)
+            thread = threading.Thread(target=target, args=(split_m,))
+            thread.start()
+            threads.append(thread)
 
-    for thread in threads:
-        thread.join()
+        for thread in threads:
+            thread.join()
+
+        new = time.time()
+
+        print(old)
+        print(new)
+        # time.sleep(8)
