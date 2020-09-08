@@ -9,8 +9,8 @@ import sys
 import time
 
 NUM_THREADS = 4
-VIDEO_ROOT = 'E:\\ss2\\video'         # Downloaded webm videos
-FRAME_ROOT = 'E:\\ss2\\frame'  # Directory for extracted frames
+VIDEO_ROOT = '/home/xiangyi/Downloads/20bn-something-something-v2'         # Downloaded webm videos
+FRAME_ROOT = '/home/xiangyi/Downloads/ss2'  # Directory for extracted frames
 
 
 def split_l(l, n):
@@ -24,7 +24,7 @@ def split_l(l, n):
 def extract(video, tmpl='%06d.jpg'):
     # os.system(f'ffmpeg -i {VIDEO_ROOT}/{video} -vf -threads 1 -vf scale=-1:256 -q:v 0 '
     #           f'{FRAME_ROOT}/{video[:-5]}/{tmpl}')
-    cmd = 'D:\\ffmpeg\\bin\\ffmpeg.exe -i \"{}/{}\" -threads 1 -vf scale=-1:256 -q:v 0 \"{}/{}/%06d.jpg\"'.format(VIDEO_ROOT, video,
+    cmd = 'ffmpeg -i \"{}/{}\" -threads 1 -vf scale=-1:256 -q:v 0 \"{}/{}/%06d.jpg\"'.format(VIDEO_ROOT, video,
                                                                                              FRAME_ROOT, video[:-5])
     os.system(cmd)
 
@@ -43,8 +43,8 @@ if __name__ == '__main__':
 
     # n = int(sys.argv[1])
     n = 10
-    for j in range(11042,11043):
-        t = 20 
+    for j in range(0,5522):
+        t = 40 
         n = j*t + 1
         # del video_list
         video_list = []
